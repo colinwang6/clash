@@ -22,6 +22,7 @@ type healthCheckSchema struct {
 type proxyProviderSchema struct {
 	Type        string            `provider:"type"`
 	Path        string            `provider:"path"`
+	UserAgent   string            `provider:"user-agent"`
 	URL         string            `provider:"url,omitempty"`
 	Interval    int               `provider:"interval,omitempty"`
 	Filter      string            `provider:"filter,omitempty"`
@@ -53,7 +54,7 @@ func ParseProxyProvider(name string, mapping map[string]any) (types.ProxyProvide
 	case "file":
 		vehicle = NewFileVehicle(path)
 	case "http":
-		vehicle = NewHTTPVehicle(schema.URL, path)
+		vehicle = NewHTTPVehicle(schema.URL, path, schema.UserAgent)
 	default:
 		return nil, fmt.Errorf("%w: %s", errVehicleType, schema.Type)
 	}

@@ -34,8 +34,9 @@ func NewFileVehicle(path string) *FileVehicle {
 }
 
 type HTTPVehicle struct {
-	url  string
-	path string
+	url       string
+	path      string
+	userAgent string
 }
 
 func (h *HTTPVehicle) Type() types.VehicleType {
@@ -66,7 +67,9 @@ func (h *HTTPVehicle) Read() ([]byte, error) {
 	}
 
 	req = req.WithContext(ctx)
-
+	if h.userAgent != "" {
+		req.Header.Set("User-Agent", h.userAgent)
+	}
 	transport := &http.Transport{
 		// from http.DefaultTransport
 		MaxIdleConns:          100,
@@ -93,6 +96,6 @@ func (h *HTTPVehicle) Read() ([]byte, error) {
 	return buf, nil
 }
 
-func NewHTTPVehicle(url string, path string) *HTTPVehicle {
-	return &HTTPVehicle{url, path}
+func NewHTTPVehicle(url string, path string, userAgent string) *HTTPVehicle {
+	return &HTTPVehicle{url, path, userAgent}
 }
