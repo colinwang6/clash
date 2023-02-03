@@ -22,7 +22,7 @@ type healthCheckSchema struct {
 type proxyProviderSchema struct {
 	Type        string            `provider:"type"`
 	Path        string            `provider:"path"`
-	UserAgent   string            `provider:"user-agent"`
+	UserAgent   string            `provider:"user-agent,omitempty"`
 	URL         string            `provider:"url,omitempty"`
 	Interval    int               `provider:"interval,omitempty"`
 	Filter      string            `provider:"filter,omitempty"`
